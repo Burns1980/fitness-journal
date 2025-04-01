@@ -1,17 +1,13 @@
 import { createClient } from '@/utils/supabase/server';
 import { InfoIcon } from 'lucide-react';
-import { redirect } from 'next/navigation';
 
-export default async function ProtectedPage() {
+export default async function workoutLogs() {
   const supabase = await createClient();
+  const { data: workoutLogs, error } = await supabase.rpc(
+    'get_workouts_with_all_fields'
+  );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect('/sign-in');
-  }
+  console.log(workoutLogs);
 
   return (
     <div className='flex-1 w-full flex flex-col gap-12'>
@@ -23,9 +19,9 @@ export default async function ProtectedPage() {
         </div>
       </div>
       <div className='flex flex-col gap-2 items-start'>
-        <h2 className='font-bold text-2xl mb-4'>Your user details</h2>
-        <pre className='text-xs font-mono p-3 rounded border max-h-32 overflow-auto'>
-          {JSON.stringify(user, null, 2)}
+        <h2 className='font-bold text-2xl mb-4'>Your workout JSON</h2>
+        <pre className='text-xs font-mono p-3 rounded border max-h-128 overflow-auto'>
+          {JSON.stringify(workoutLogs, null, 2)}
         </pre>
       </div>
     </div>

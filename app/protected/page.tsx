@@ -13,6 +13,16 @@ export default async function ProtectedPage() {
     return redirect('/sign-in');
   }
 
+  const { data, error } = await supabase.rpc(
+    'get_journal_entries_with_details'
+  );
+
+  if (error) {
+    console.error('error', error);
+  }
+  console.log(user.id);
+  console.log('data', data);
+
   return (
     <div className='flex-1 w-full flex flex-col gap-12'>
       <div className='w-full'>
@@ -24,7 +34,7 @@ export default async function ProtectedPage() {
       </div>
       <div className='flex flex-col gap-2 items-start'>
         <h2 className='font-bold text-2xl mb-4'>Your user details</h2>
-        <pre className='text-xs font-mono p-3 rounded border max-h-32 overflow-auto'>
+        <pre className='text-xs font-mono p-3 rounded border max-h-84 overflow-auto'>
           {JSON.stringify(user, null, 2)}
         </pre>
       </div>

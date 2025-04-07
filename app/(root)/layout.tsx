@@ -13,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className='min-h-screen flex flex-col items-center'>
-      <div className='flex-1 w-full flex flex-col gap-2 items-center'>
-        <header className='w-full border-b'>
+    <main className='flex flex-col min-h-screen w-full'>
+      <div className='flex flex-1 flex-col gap-2 items-center'>
+        <header className='flex-none w-full border-b'>
           <nav className='w-full flex justify-center border-b border-b-foreground/10 h-16'>
             <div className='w-full flex justify-between items-center p-3 px-5 text-sm'>
               <Menu className='lg:hidden' />
@@ -38,10 +38,8 @@ export default function RootLayout({
             </div>
           </nav>
         </header>
-        <div className='flex flex-col flex-1 gap-20 max-w-5xl p-5'>
-          {children}
-        </div>
-        <footer className='w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-5'>
+        <div className='flex flex-col w-full flex-1 gap-20 p-5'>{children}</div>
+        <footer className='w-full flex-none flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-5'>
           <div className='flex items-center gap-2'>
             Powered by{' '}
             <a

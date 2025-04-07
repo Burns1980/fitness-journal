@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { APP_NAME } from '@/lib/constants';
 import Image from 'next/image';
 import { Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function RootLayout({
   children,
@@ -18,7 +19,9 @@ export default function RootLayout({
         <header className='flex-none w-full border-b'>
           <nav className='w-full flex justify-center border-b border-b-foreground/10 h-16'>
             <div className='w-full flex justify-between items-center p-3 px-5 text-sm'>
-              <Menu className='lg:hidden' />
+              <Button className='pl-0 lg:hidden' variant={'ghost'}>
+                <Menu />
+              </Button>
               <div className='flex gap-5 items-center'>
                 <Link href={'/'} className='flex items-center gap-2'>
                   <Image
@@ -38,7 +41,9 @@ export default function RootLayout({
             </div>
           </nav>
         </header>
-        <div className='flex flex-col w-full flex-1 gap-20 p-5'>{children}</div>
+        <div className='flex flex-col w-full flex-1 items-center gap-20 p-5'>
+          {children}
+        </div>
         <footer className='w-full flex-none flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-5'>
           <div className='flex items-center gap-2'>
             Powered by{' '}

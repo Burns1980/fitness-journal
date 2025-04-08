@@ -9,7 +9,9 @@ export const metadata = {
   title: 'Sign In',
 };
 
-export default async function Login(props: { searchParams: Promise<Message> }) {
+export default async function Login(props: {
+  searchParams: Promise<Message>;
+}): Promise<React.ReactNode> {
   const searchParams = await props.searchParams;
 
   return (

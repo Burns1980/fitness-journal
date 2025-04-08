@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 
 export default async function ForgotPassword(props: {
   searchParams: Promise<Message>;
-}) {
+}): Promise<React.ReactNode> {
   const searchParams = await props.searchParams;
   return (
     <>

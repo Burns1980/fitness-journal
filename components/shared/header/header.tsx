@@ -5,7 +5,7 @@ import HeaderAuth from '@/components/shared/header/header-auth';
 import HeaderMenu from '@/components/shared/header/header-menu';
 import { APP_NAME } from '@/lib/constants';
 
-export default function Header() {
+export default function Header(): React.ReactNode {
   return (
     <header className='flex-none w-full border-b'>
       <nav className='w-full flex justify-center border-b border-b-foreground/10 h-16'>
@@ -14,7 +14,7 @@ export default function Header() {
             <HeaderMenu />
           </div>
           <div className='flex gap-5 items-center'>
-            <Link href="/" className='flex items-center gap-2'>
+            <Link href='/' className='flex items-center gap-2'>
               <Image
                 src='/images/climbing-bag-logo.jpg'
                 alt={`${APP_NAME} home page`}

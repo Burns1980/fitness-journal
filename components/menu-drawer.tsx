@@ -1,6 +1,5 @@
 'use client';
 
-
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { ReactNode, useState } from 'react';
@@ -26,7 +25,7 @@ export default function MenuDrawer() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button asChild variant="ghost" className='p-0'>
+        <Button asChild variant='ghost' className='p-0'>
           <Menu />
         </Button>
       </DrawerTrigger>

@@ -26,7 +26,7 @@ export default function ThemeRootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): React.ReactNode {
   return (
     <html lang='en' className={geistSans.className} suppressHydrationWarning>
       <body className='bg-background text-foreground'>

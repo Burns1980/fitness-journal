@@ -5,7 +5,7 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): React.ReactNode {
   return (
     <main className='flex flex-col min-h-screen w-full'>
       <div className='flex flex-1 flex-col gap-2 items-center'>

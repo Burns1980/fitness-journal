@@ -12,7 +12,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 
-export default function HeaderMenu() {
+export default function HeaderMenu(): React.ReactNode {
   const [open, setOpen] = useState(false);
 
   function handleSignInClick() {
@@ -24,17 +24,17 @@ export default function HeaderMenu() {
       <SheetTrigger>
         <Menu />
       </SheetTrigger>
-      <SheetContent side="left" className='w-full'>
+      <SheetContent side='left' className='w-full'>
         <div className='pt-10 flex h-full flex-col'>
           <SheetHeader>
             <SheetTitle></SheetTitle>
             <SheetDescription></SheetDescription>
           </SheetHeader>
           <div className='flex flex-1 flex-col items-center gap-4 pt-8'>
-            <Button variant="lgGhost" className='w-[15rem]'>
+            <Button variant='lgGhost' className='w-[15rem]'>
               Contact us
             </Button>
-            <Button variant="lgGhost" className='w-[15rem]'>
+            <Button variant='lgGhost' className='w-[15rem]'>
               About us
             </Button>
           </div>
@@ -43,7 +43,7 @@ export default function HeaderMenu() {
               <Link href='/sign-in'>Sign in</Link>
             </Button>
             <Button
-              variant="secondary"
+              variant='secondary'
               onClick={handleSignInClick}
               className='w-full'
             >

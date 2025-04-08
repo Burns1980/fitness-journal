@@ -2,7 +2,7 @@ import { InfoIcon } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 
-export default async function ProtectedPage() {
+export default async function ProtectedPage(): Promise<React.ReactNode> {
   const supabase = await createClient();
 
   const {

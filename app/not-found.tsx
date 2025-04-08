@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { APP_NAME } from '@/lib/constants';
 
-export default function NotFound() {
+export default function NotFound(): React.ReactNode {
   return (
     <div className='flex w-full flex-1 flex-col items-center justify-center'>
       <Image

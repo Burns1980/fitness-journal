@@ -12,7 +12,7 @@ export function SubmitButton({
   children,
   pendingText = 'Submitting...',
   ...props
-}: Props) {
+}: Props): React.ReactNode {
   const { pending } = useFormStatus();
 
   return (

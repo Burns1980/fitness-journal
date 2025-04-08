@@ -8,10 +8,7 @@ import next from '@next/eslint-plugin-next';
 import prettier from 'eslint-config-prettier';
 
 export default tseslint.config(
-  // {
-  //   files: ['**/*.{ts,tsx}'],
-  //   ...tseslint.configs.recommendedTypeChecked,
-  // },
+  tseslint.configs.recommendedTypeChecked,
   {
     files: ['**/*.{js,jsx,mjs,cjs}'],
     ...js.configs.recommended,
@@ -43,7 +40,10 @@ export default tseslint.config(
       '@typescript-eslint/no-empty-object-type': 'off',
     },
   },
-
+  {
+    files: ['**/*.{js,jsx}'],
+    extends: [tseslint.configs.disableTypeChecked],
+  },
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {

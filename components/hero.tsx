@@ -1,4 +1,6 @@
-export default async function Header() {
+import { ReactNode } from 'react';
+
+export default function Header(): ReactNode {
   return (
     <div className='flex flex-col gap-16 items-center'>
       <h1 className='sr-only'>Welcome to your fitness journal</h1>

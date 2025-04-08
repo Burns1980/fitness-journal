@@ -13,6 +13,8 @@ export default async function ProtectedPage() {
     return redirect('/sign-in');
   }
 
+  // ToDo: Define type for data => data from climbing_journal table
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data, error } = await supabase.rpc(
     'get_journal_entries_with_details'
   );

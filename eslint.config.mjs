@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import jest from 'eslint-plugin-jest';
 import tseslint from 'typescript-eslint';
 import tsParser from '@typescript-eslint/parser';
 import ts from '@typescript-eslint/eslint-plugin';
@@ -88,6 +89,18 @@ export default tseslint.config(
         __dirname: 'readonly',
         __filename: 'readonly',
       },
+    },
+  },
+  {
+    files: ['__tests__/**'],
+    ...jest.configs['flat/recommended'],
+    ...jest.configs['flat/style'],
+    languageOptions: {
+      globals: jest.environments.globals.globals,
+    },
+    rules: {
+      ...jest.configs['flat/recommended'].rules,
+      'jest/prefer-expect-assertions': 'off',
     },
   },
   prettier,

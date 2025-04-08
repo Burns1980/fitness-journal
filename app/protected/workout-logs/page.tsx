@@ -1,13 +1,13 @@
-import { createClient } from '@/utils/supabase/server';
 import { InfoIcon } from 'lucide-react';
+import { createClient } from '@/utils/supabase/server';
 
 export default async function workoutLogs() {
   const supabase = await createClient();
-  const { data: workoutLogs, error } = await supabase.rpc(
-    'get_workouts_with_all_fields'
-  );
+  // const { data: workoutLogs, error } = await supabase.rpc(
+  //   'get_workouts_with_all_fields'
+  // );
 
-  console.log(workoutLogs);
+  // console.log(workoutLogs);
 
   return (
     <div className='flex-1 w-full flex flex-col gap-12'>
@@ -21,7 +21,8 @@ export default async function workoutLogs() {
       <div className='flex flex-col gap-2 items-start'>
         <h2 className='font-bold text-2xl mb-4'>Your workout JSON</h2>
         <pre className='text-xs font-mono p-3 rounded border max-h-128 overflow-auto'>
-          {JSON.stringify(workoutLogs, null, 2)}
+          {/* {JSON.stringify(workoutLogs, null, 2)} */}
+          test placement
         </pre>
       </div>
     </div>

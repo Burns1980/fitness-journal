@@ -1,8 +1,8 @@
-import { createClient } from '@/utils/supabase/server';
 import { InfoIcon } from 'lucide-react';
 import { redirect } from 'next/navigation';
+import { createClient } from '@/utils/supabase/server';
 
-export default async function ProtectedPage() {
+export default async function ProtectedPage(): Promise<React.ReactNode> {
   const supabase = await createClient();
 
   const {
@@ -12,6 +12,18 @@ export default async function ProtectedPage() {
   if (!user) {
     return redirect('/sign-in');
   }
+
+  // ToDo: Define type for data => data from climbing_journal table
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { data, error } = await supabase.rpc(
+    'get_journal_entries_with_details'
+  );
+
+  if (error) {
+    console.error('error', error);
+  }
+  console.log(user.id);
+  console.log('data', data);
 
   return (
     <div className='flex-1 w-full flex flex-col gap-12'>
@@ -24,7 +36,7 @@ export default async function ProtectedPage() {
       </div>
       <div className='flex flex-col gap-2 items-start'>
         <h2 className='font-bold text-2xl mb-4'>Your user details</h2>
-        <pre className='text-xs font-mono p-3 rounded border max-h-32 overflow-auto'>
+        <pre className='text-xs font-mono p-3 rounded border max-h-84 overflow-auto'>
           {JSON.stringify(user, null, 2)}
         </pre>
       </div>

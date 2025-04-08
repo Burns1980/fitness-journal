@@ -9,7 +9,7 @@ export default function DeployButton() {
         target='_blank'
         className='hidden lg:block'
       >
-        <Button className='flex items-center gap-2' size={'sm'}>
+        <Button className='flex items-center gap-2' size="sm">
           <svg
             className='h-3 w-3'
             viewBox='0 0 76 65'

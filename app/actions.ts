@@ -1,10 +1,10 @@
 'use server';
 
-import { encodedRedirect } from '@/utils/utils';
-import { createClient } from '@/utils/supabase/server';
+import { Provider } from '@supabase/supabase-js';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { Provider } from '@supabase/supabase-js';
+import { createClient } from '@/utils/supabase/server';
+import { encodedRedirect } from '@/utils/utils';
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get('email')?.toString();
@@ -53,7 +53,7 @@ export const signInWithGoogle = async () => {
   if (error) {
     return encodedRedirect('error', '/sign-in', error.message);
   }
-  if (data?.url) {
+  if (data.url) {
     return redirect(data.url);
   }
 };

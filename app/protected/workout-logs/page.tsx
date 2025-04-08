@@ -1,5 +1,5 @@
-import { createClient } from '@/utils/supabase/server';
 import { InfoIcon } from 'lucide-react';
+import { createClient } from '@/utils/supabase/server';
 
 export default async function workoutLogs() {
   const supabase = await createClient();

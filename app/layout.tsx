@@ -1,6 +1,6 @@
-import RootLayout from './(root)/layout';
 import { Geist } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
+import RootLayout from './(root)/layout';
 import './globals.css';
 import { APP_DESCRIPTION, APP_NAME } from '@/lib/constants';
 

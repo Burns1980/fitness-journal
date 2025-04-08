@@ -1,4 +1,7 @@
 'use client';
+import { Menu } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -8,9 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Menu } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
 
 export default function HeaderMenu() {
   const [open, setOpen] = useState(false);
@@ -24,17 +24,17 @@ export default function HeaderMenu() {
       <SheetTrigger>
         <Menu />
       </SheetTrigger>
-      <SheetContent side={'left'} className='w-full'>
+      <SheetContent side="left" className='w-full'>
         <div className='pt-10 flex h-full flex-col'>
           <SheetHeader>
             <SheetTitle></SheetTitle>
             <SheetDescription></SheetDescription>
           </SheetHeader>
           <div className='flex flex-1 flex-col items-center gap-4 pt-8'>
-            <Button variant={'lgGhost'} className='w-[15rem]'>
+            <Button variant="lgGhost" className='w-[15rem]'>
               Contact us
             </Button>
-            <Button variant={'lgGhost'} className='w-[15rem]'>
+            <Button variant="lgGhost" className='w-[15rem]'>
               About us
             </Button>
           </div>
@@ -43,7 +43,7 @@ export default function HeaderMenu() {
               <Link href='/sign-in'>Sign in</Link>
             </Button>
             <Button
-              variant={'secondary'}
+              variant="secondary"
               onClick={handleSignInClick}
               className='w-full'
             >

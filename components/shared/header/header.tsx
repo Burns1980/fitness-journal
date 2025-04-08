@@ -1,10 +1,8 @@
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import Image from 'next/image';
-import HeaderMenu from '@/components/shared/header/header-menu';
+import Link from 'next/link';
 import DeployButton from '@/components/shared/deploy-button';
 import HeaderAuth from '@/components/shared/header/header-auth';
-import MenuDrawer from '@/components/menu-drawer';
+import HeaderMenu from '@/components/shared/header/header-menu';
 import { APP_NAME } from '@/lib/constants';
 
 export default function Header() {
@@ -16,7 +14,7 @@ export default function Header() {
             <HeaderMenu />
           </div>
           <div className='flex gap-5 items-center'>
-            <Link href={'/'} className='flex items-center gap-2'>
+            <Link href="/" className='flex items-center gap-2'>
               <Image
                 src='/images/climbing-bag-logo.jpg'
                 alt={`${APP_NAME} home page`}

@@ -18,7 +18,7 @@ export function SubmitButton({
   return (
     <Button type='submit' aria-disabled={pending} {...props}>
       {pending ? (
-        <div>
+        <div className='flex flex-row-reverse gap-2'>
           <span>{pendingText}</span>
           <LoaderCircle className='animate-spin' />
         </div>

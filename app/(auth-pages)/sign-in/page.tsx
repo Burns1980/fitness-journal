@@ -15,7 +15,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
   return (
     <div>
       <form className='flex-1 flex flex-col min-w-64'>
-        <h1 className='text-2xl font-medium'>Sign in</h1>
+        <h1 className='text-3xl pt-2 pb-2 font-medium'>Sign in</h1>
         <p className='text-sm text-foreground'>
           Don't have an account?{' '}
           <Link
@@ -56,10 +56,8 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
         </div>
       </form>
       <form className='flex-1 flex flex-col min-w-64 mt-8'>
-        <h1 className='text-2xl font-medium  mb-4'>
-          Sign in with a social provider
-        </h1>
         <SubmitButton
+          className='bg-blue-700 text-white hover:bg-blue-600'
           pendingText='Signing In with Google...'
           formAction={signInWithGoogle}
         >

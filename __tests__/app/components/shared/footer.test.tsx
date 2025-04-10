@@ -1,43 +1,51 @@
 import { render, screen } from '@testing-library/react';
 import Footer from '@/components/shared/footer';
 
-jest.mock(
-  '@/components/shared/supabase-logo',
-  () => (): (() => React.ReactNode) => {
-    const SupabaseLogoMock = (): React.ReactNode => (
-      <div data-testid='supabase-logo' />
-    );
-    SupabaseLogoMock.displayName = 'SupabaseLogoMock';
-    return SupabaseLogoMock;
-  }
-);
-// jest.mock('@/components/shared/theme-switcher', () => () => (
-//   <div data-testid='theme-switcher' />
-// ));
+type MockComponent = React.FunctionComponent & {
+  displayName?: string;
+};
 
-describe('Footer', () => {
-  it('renders the footer element', () => {
-    render(<Footer />);
-    const footerElement = screen.getByRole('generic');
-    expect(footerElement).toBeInTheDocument();
-  });
+jest.mock('@/components/shared/supabase-logo', () => {
+  const SupabaseLogoMock: MockComponent = () => (
+    <div data-testid='supabase-logo' />
+  );
+  SupabaseLogoMock.displayName = 'SupabaseLogoMock';
+  return SupabaseLogoMock;
+});
 
-  // it('renders the Supabase logo with the correct link', () => {
-  //   render(<Footer />);
-  //   const linkElement = screen.getByRole('link', { name: /powered by/i });
-  //   expect(linkElement).toHaveAttribute(
-  //     'href',
-  //     'https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs'
-  //   );
-  //   expect(linkElement).toHaveAttribute('target', '_blank');
-  //   expect(linkElement).toHaveAttribute('rel', 'noreferrer');
-  //   const logoElement = screen.getByTestId('supabase-logo');
-  //   expect(logoElement).toBeInTheDocument();
-  // });
+jest.mock('@/components/shared/theme-switcher', () => {
+  const ThemeSwitcher: MockComponent = () => (
+    <div data-testid='theme-switcher' />
+  );
+  ThemeSwitcher.displayName = 'ThemeSwitcher';
+  return { ThemeSwitcher };
+});
 
-  // it('renders the ThemeSwitcher component', () => {
-  //   render(<Footer />);
-  //   const themeSwitcher = screen.getByTestId('theme-switcher');
-  //   expect(themeSwitcher).toBeInTheDocument();
-  // });
+it('renders the footer element', () => {
+  render(<Footer />);
+  const footerElement = screen.getByRole('contentinfo');
+  expect(footerElement).toBeInTheDocument();
+});
+
+it('renders the Supabase logo with the correct link', () => {
+  render(<Footer />);
+
+  const linkPreText = screen.getByText('Powered by');
+  const linkElement = linkPreText.firstElementChild;
+  const logoElement = screen.getByTestId('supabase-logo');
+
+  expect(linkPreText).toBeInTheDocument();
+  expect(linkElement).toHaveAttribute(
+    'href',
+    expect.stringContaining('https://supabase.com/')
+  );
+  expect(linkElement).toHaveAttribute('target', '_blank');
+  expect(linkElement).toHaveAttribute('rel', 'noreferrer');
+  expect(logoElement).toBeInTheDocument();
+});
+
+it('renders the ThemeSwitcher component', () => {
+  render(<Footer />);
+  const themeSwitcher = screen.getByTestId('theme-switcher');
+  expect(themeSwitcher).toBeInTheDocument();
 });

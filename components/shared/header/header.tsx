@@ -10,9 +10,7 @@ export default function Header(): React.ReactNode {
     <header className='flex-none w-full border-b'>
       <nav className='w-full flex justify-center border-b border-b-foreground/10 h-16'>
         <div className='w-full flex justify-between items-center p-3 px-5 text-sm'>
-          <div className='lg:hidden'>
-            <HeaderMenu />
-          </div>
+          <HeaderMenu />
           <div className='flex gap-5 items-center'>
             <Link href='/' className='flex items-center gap-2'>
               <Image

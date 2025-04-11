@@ -189,7 +189,7 @@ export const signOutAction = async (): Promise<undefined> => {
     console.log('signout action');
   }
 
-  // revalidatePath('/', 'layout');
+  revalidatePath('/', 'layout');
 
   return redirect('/sign-in');
 };

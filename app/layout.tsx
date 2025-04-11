@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { ThemeProvider } from 'next-themes';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { APP_DESCRIPTION, APP_NAME } from '@/lib/constants';
+import { createClient } from '@/utils/supabase/server';
 import RootLayout from '@/app/(root)/layout';
 import AuthProvider from '@/app/providers/auth-provider';
 import './globals.css';
@@ -32,6 +33,13 @@ export default async function ThemeRootLayout({
 }>): Promise<React.ReactNode> {
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
+  const supabase = await createClient();
+  // const {
+  //   data: { session },
+  // } = await supabase.auth.getSession();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <html lang='en' className={geistSans.className} suppressHydrationWarning>
@@ -42,7 +50,7 @@ export default async function ThemeRootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>
+          <AuthProvider initialSession={user}>
             <SidebarProvider defaultOpen={defaultOpen}>
               <RootLayout>{children}</RootLayout>
             </SidebarProvider>

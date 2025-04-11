@@ -69,9 +69,8 @@ const menuItems: {
 ];
 
 export function AppSidebar(): React.ReactNode {
-  const { isMobile, state } = useSidebar();
+  const { isMobile } = useSidebar();
   const authData = useAuth();
-  const user = authData?.user;
 
   // console.log(authData);
 
@@ -82,7 +81,7 @@ export function AppSidebar(): React.ReactNode {
           <Menu />
         </MobileTrigger>
       )} */}
-      {!!user && (
+      {!!authData?.user && (
         <Sidebar collapsible={isMobile ? 'offcanvas' : 'none'}>
           <SidebarContent>
             <SidebarGroup>

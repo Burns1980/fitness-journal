@@ -1,17 +1,8 @@
 import { InfoIcon } from 'lucide-react';
-import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 
-export default async function ProtectedPage(): Promise<React.ReactNode> {
+export default async function UserHome(): Promise<React.ReactNode> {
   const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect('/sign-in');
-  }
 
   // ToDo: Define type for data => data from climbing_journal table
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

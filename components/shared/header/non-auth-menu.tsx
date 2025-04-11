@@ -15,7 +15,7 @@ import {
 export default function NonAuthMenu(): React.ReactNode {
   const [open, setOpen] = useState(false);
 
-  function handleSignInClick() {
+  function handleSignInClick(): void {
     setOpen(false);
   }
 

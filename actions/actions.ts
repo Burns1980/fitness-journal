@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
@@ -35,9 +36,9 @@ export const signUpAction = async (formData: FormData): Promise<undefined> => {
   });
 
   if (error) {
-    // console.error(error.code + ' ' + error.message);
     return encodedRedirect('error', '/sign-up', error.message);
   } else {
+    revalidatePath('/');
     return encodedRedirect(
       'success',
       '/sign-up',
@@ -65,9 +66,17 @@ export const signInWithGoogle = async (): Promise<undefined> => {
 };
 
 export const signInAction = async (formData: FormData): Promise<undefined> => {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
+  const email = formData.get('email');
+  const password = formData.get('password');
   const supabase = await createClient();
+
+  if (typeof email !== 'string' || typeof password !== 'string') {
+    return encodedRedirect(
+      'error',
+      '/sign-in',
+      'There was an error reading the email and password inputs'
+    );
+  }
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
@@ -78,7 +87,8 @@ export const signInAction = async (formData: FormData): Promise<undefined> => {
     return encodedRedirect('error', '/sign-in', error.message);
   }
 
-  return redirect('/protected');
+  revalidatePath('/private');
+  return redirect('/private');
 };
 
 export const forgotPasswordAction = async (
@@ -104,11 +114,10 @@ export const forgotPasswordAction = async (
   }
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?redirect_to=/protected/reset-password`,
+    redirectTo: `${origin}/auth/callback?redirect_to=//private/reset-password`,
   });
 
   if (error) {
-    // console.error(error.message);
     return encodedRedirect(
       'error',
       '/forgot-password',
@@ -138,7 +147,7 @@ export const resetPasswordAction = async (
   if (typeof password !== 'string' || typeof confirmPassword !== 'string') {
     return encodedRedirect(
       'error',
-      '/protected/reset-password',
+      '//reset-password',
       'Something went wrong parsing passwords as values were not strings'
     );
   }
@@ -146,7 +155,7 @@ export const resetPasswordAction = async (
   if (!password || !confirmPassword) {
     return encodedRedirect(
       'error',
-      '/protected/reset-password',
+      '//reset-password',
       'Password and confirm password are required'
     );
   }
@@ -154,7 +163,7 @@ export const resetPasswordAction = async (
   if (password !== confirmPassword) {
     return encodedRedirect(
       'error',
-      '/protected/reset-password',
+      '//reset-password',
       'Passwords do not match'
     );
   }
@@ -166,20 +175,24 @@ export const resetPasswordAction = async (
   if (error) {
     return encodedRedirect(
       'error',
-      '/protected/reset-password',
+      '//reset-password',
       'Password update failed'
     );
   }
 
-  return encodedRedirect(
-    'success',
-    '/protected/reset-password',
-    'Password updated'
-  );
+  return encodedRedirect('success', '//reset-password', 'Password updated');
 };
 
 export const signOutAction = async (): Promise<undefined> => {
   const supabase = await createClient();
-  await supabase.auth.signOut();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user) {
+    await supabase.auth.signOut({ scope: 'global' });
+  }
+
+  revalidatePath('/sign-in');
+
   return redirect('/sign-in');
 };

@@ -1,17 +1,8 @@
 import { InfoIcon } from 'lucide-react';
-import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 
-export default async function ProtectedPage(): Promise<React.ReactNode> {
+export default async function UserHome(): Promise<React.ReactNode> {
   const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect('/sign-in');
-  }
 
   // ToDo: Define type for data => data from climbing_journal table
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -22,8 +13,8 @@ export default async function ProtectedPage(): Promise<React.ReactNode> {
   if (error) {
     console.error('error', error);
   }
-  console.log(user.id);
-  console.log('data', data);
+  // console.log(user.id);
+  // console.log('data', data);
 
   return (
     <div className='flex-1 w-full flex flex-col gap-12'>
@@ -37,7 +28,8 @@ export default async function ProtectedPage(): Promise<React.ReactNode> {
       <div className='flex flex-col gap-2 items-start'>
         <h2 className='font-bold text-2xl mb-4'>Your user details</h2>
         <pre className='text-xs font-mono p-3 rounded border max-h-84 overflow-auto'>
-          {JSON.stringify(user, null, 2)}
+          {/* {JSON.stringify(user, null, 2)} */}
+          text
         </pre>
       </div>
     </div>

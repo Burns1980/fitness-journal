@@ -1,3 +1,4 @@
+// Reference only - delete before push to prod
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -17,11 +18,8 @@ import {
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
-
-type Inputs = {
-  email: string;
-  password: string;
-};
+import { useState } from 'react';
+import { signInAction, signInWithGoogle } from '@/actions/actions';
 
 const formSchema = z.object({
   email: z
@@ -36,6 +34,8 @@ const formSchema = z.object({
 });
 
 export default function SignInForm(): React.ReactNode {
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,37 +44,9 @@ export default function SignInForm(): React.ReactNode {
       password: '',
     },
   });
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm<Inputs>({ defaultValues: { email: '', password: '' } });
-  function onSubmit(data: z.infer<typeof formSchema>): void {
-    console.log('inside data');
-    console.log(data);
-  }
 
-  async function handleGoogleSubmit(): Promise<void> {
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
-      },
-    });
-    console.log('data', data);
-    console.log('error', error);
-
-    if (error) {
-      console.log(error);
-      return router.push('/');
-    }
-
-    if (data.url) {
-      return router.push(data.url);
-    }
-  }
+  // needed for client side error handling
+  function onSubmit(data: z.infer<typeof formSchema>): void {}
 
   return (
     <div>
@@ -83,9 +55,9 @@ export default function SignInForm(): React.ReactNode {
           onSubmit={(e) => {
             void form.handleSubmit(onSubmit)(e);
           }}
-          className='flex flex-col min-w-64 space-y-8'
+          className='flex flex-col min-w-64 space-y-4'
         >
-          <h1 className='text-3xl pt-2 pb-2 font-medium'>Sign in</h1>
+          <h1 className='text-3xl pt-2 pb-2 font-medium'>Login</h1>
           <p className='text-sm text-foreground'>
             {"Don't have an account? "}
             <Link
@@ -108,7 +80,7 @@ export default function SignInForm(): React.ReactNode {
                     {...field}
                   />
                 </FormControl>
-                {/* <FormDescription>Email you want to sign in with</FormDescription> */}
+                {/* <FormDescription>Email you want to Login with</FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}
@@ -141,21 +113,32 @@ export default function SignInForm(): React.ReactNode {
               </FormItem>
             )}
           />
-          <SubmitButton type='submit'>Sign in</SubmitButton>
+          <SubmitButton formAction={signInAction}>Login</SubmitButton>
           <div className='pt-1 flex flex-col gap-3 justify-betwen items-center'>
-            <p>Or sign in with Google</p>
-            <SubmitButton
-              type='button'
-              onClick={() => void handleGoogleSubmit()}
+            {/* <SubmitButton
+              type='submit'
+              // onClick={() => void handleGoogleSubmit()}
+              // onSubmit={() => void handleGoogleSubmit()}
+              formAction={signInWithGoogle}
               className='bg-blue-700 text-white hover:bg-blue-600 w-full mt-4'
               pendingText='Signing In with Google...'
             >
-              Sign in with Google
-            </SubmitButton>
+              Login with Google
+            </SubmitButton> */}
           </div>
         </form>
       </Form>
-      <form className='flex-1 flex flex-col min-w-64 mt-8'></form>
+      <p className='text-center items-center'>Or login with Google</p>
+      <form className='flex-1 flex flex-col min-w-64 mt-3'>
+        <SubmitButton
+          className='bg-blue-700 text-white hover:bg-blue-600'
+          pendingText='Signing In with Google...'
+          formAction={signInWithGoogle}
+        >
+          Login with Google
+        </SubmitButton>
+        {/* <FormMessage message={searchParams} /> */}
+      </form>
     </div>
   );
 }

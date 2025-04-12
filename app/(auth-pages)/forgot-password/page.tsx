@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { SmtpMessage } from '../smtp-message';
-import { forgotPasswordAction } from '@/app/actions';
+import { forgotPasswordAction } from '@/actions/actions';
 import { FormMessage, Message } from '@/components/form-message';
 import { SubmitButton } from '@/components/shared/submit-button';
 import { Input } from '@/components/ui/input';
@@ -18,7 +18,7 @@ export default async function ForgotPassword(props: {
           <p className='text-sm text-secondary-foreground'>
             Already have an account?{' '}
             <Link className='text-primary underline' href='/sign-in'>
-              Sign in
+              Login
             </Link>
           </p>
         </div>
@@ -27,6 +27,7 @@ export default async function ForgotPassword(props: {
           <Input
             name='email'
             id='email'
+            type='email'
             placeholder='you@example.com'
             required
           />

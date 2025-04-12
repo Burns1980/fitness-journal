@@ -36,10 +36,9 @@ export const signUpAction = async (formData: FormData): Promise<undefined> => {
   });
 
   if (error) {
-    // console.error(error.code + ' ' + error.message);
     return encodedRedirect('error', '/sign-up', error.message);
   } else {
-    revalidatePath('/', 'layout');
+    revalidatePath('/');
     return encodedRedirect(
       'success',
       '/sign-up',
@@ -49,7 +48,6 @@ export const signUpAction = async (formData: FormData): Promise<undefined> => {
 };
 
 export const signInWithGoogle = async (): Promise<undefined> => {
-  console.log('google sign in');
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -68,10 +66,17 @@ export const signInWithGoogle = async (): Promise<undefined> => {
 };
 
 export const signInAction = async (formData: FormData): Promise<undefined> => {
-  console.log('sign in action');
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
+  const email = formData.get('email');
+  const password = formData.get('password');
   const supabase = await createClient();
+
+  if (typeof email !== 'string' || typeof password !== 'string') {
+    return encodedRedirect(
+      'error',
+      '/sign-in',
+      'There was an error reading the email and password inputs'
+    );
+  }
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
@@ -82,7 +87,7 @@ export const signInAction = async (formData: FormData): Promise<undefined> => {
     return encodedRedirect('error', '/sign-in', error.message);
   }
 
-  revalidatePath('/', 'layout');
+  revalidatePath('/private');
   return redirect('/private');
 };
 
@@ -109,11 +114,10 @@ export const forgotPasswordAction = async (
   }
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?redirect_to=//reset-password`,
+    redirectTo: `${origin}/auth/callback?redirect_to=//private/reset-password`,
   });
 
   if (error) {
-    // console.error(error.message);
     return encodedRedirect(
       'error',
       '/forgot-password',
@@ -186,10 +190,9 @@ export const signOutAction = async (): Promise<undefined> => {
   } = await supabase.auth.getUser();
   if (user) {
     await supabase.auth.signOut({ scope: 'global' });
-    console.log('signout action');
   }
 
-  revalidatePath('/', 'layout');
+  revalidatePath('/sign-in');
 
   return redirect('/sign-in');
 };

@@ -40,7 +40,7 @@ export default function NonAuthMenu(): React.ReactNode {
           </div>
           <div className='mb-14 flex flex-col justify-center gap-4'>
             <Button onClick={handleSignInClick} className='w-full'>
-              <Link href='/sign-in'>Sign in</Link>
+              <Link href='/sign-in'>Login</Link>
             </Button>
             <Button
               variant='secondary'

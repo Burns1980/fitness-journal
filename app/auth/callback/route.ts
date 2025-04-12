@@ -10,8 +10,6 @@ export async function GET(request: Request) {
   const origin = requestUrl.origin;
   const redirectTo = requestUrl.searchParams.get('redirect_to')?.toString();
 
-  console.log('inside auth/callbackl')
-
   if (code) {
     const supabase = await createClient();
     await supabase.auth.exchangeCodeForSession(code);

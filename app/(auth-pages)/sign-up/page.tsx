@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { SmtpMessage } from '../smtp-message';
-import { signUpAction } from '@/app/actions';
+import { signUpAction } from '@/actions/actions';
 import { FormMessage, Message } from '@/components/form-message';
 import { SubmitButton } from '@/components/shared/submit-button';
 import { Input } from '@/components/ui/input';
@@ -25,7 +25,7 @@ export default async function Signup(props: {
         <p className='text-sm text text-foreground'>
           Already have an account?{' '}
           <Link className='text-primary font-medium underline' href='/sign-in'>
-            Sign in
+            Login
           </Link>
         </p>
         <div className='flex flex-col gap-2 [&>input]:mb-3 mt-8'>
@@ -33,7 +33,9 @@ export default async function Signup(props: {
           <Input
             name='email'
             id='email'
+            type='email'
             placeholder='you@example.com'
+            autoComplete='username'
             required
           />
           <Label htmlFor='password'>Password</Label>
@@ -43,6 +45,7 @@ export default async function Signup(props: {
             id='password'
             placeholder='Your password'
             minLength={6}
+            autoComplete='new-password'
             required
           />
           <SubmitButton formAction={signUpAction} pendingText='Signing up...'>

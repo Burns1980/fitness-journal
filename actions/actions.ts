@@ -5,6 +5,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { encodedRedirect } from '@/utils/utils';
+import { User } from '@supabase/supabase-js';
 
 export const signUpAction = async (formData: FormData): Promise<undefined> => {
   const email = formData.get('email');
@@ -195,4 +196,25 @@ export const signOutAction = async (): Promise<undefined> => {
   revalidatePath('/sign-in');
 
   return redirect('/sign-in');
+};
+
+export const getUser = async (): Promise<
+  { status: string; message: string } | { status: string; user: User }
+> => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error) {
+    return {
+      status: 'error',
+      message: 'There was an error retrieving user data',
+    };
+  }
+
+  return user
+    ? { status: 'success', user }
+    : { status: 'error', message: 'No user data found' };
 };

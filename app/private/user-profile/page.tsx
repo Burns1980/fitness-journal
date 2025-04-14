@@ -9,12 +9,14 @@ export default async function workoutLogs() {
 
   // console.log(workoutLogs);
 
-  const { data, error } = await supabase.functions.invoke('help-world', {
-    body: { name: 'Functions' },
-  });
+  // const { data, error } = await supabase.functions.invoke('profiles', {
+  //   body: { name: 'Functions' },
+  // });
 
-  console.log(data);
-  console.log(error);
+  // const { data, error } = await supabase.auth.getSession();
+
+  // console.log(data);
+  // console.log(error);
 
   return (
     <div className='flex-1 w-full flex flex-col gap-12'>

@@ -1,5 +1,7 @@
+import { Menu } from 'lucide-react';
+import NonAuthMenu from '@/components/shared/header/non-auth-menu';
+import MobileSidebarTrigger from '@/components/ui/custom-sidebar-trigger';
 import { createClient } from '@/utils/supabase/server';
-import NonAuthMenu from './non-auth-menu';
 
 export default async function HeaderMenu(): Promise<React.ReactNode> {
   const supabase = await createClient();
@@ -10,7 +12,15 @@ export default async function HeaderMenu(): Promise<React.ReactNode> {
 
   return (
     <div className='lg:hidden'>
-      {!!user ? <div>test</div> : <NonAuthMenu />}
+      {!!user ? (
+        <div>
+          <MobileSidebarTrigger className='pl-1'>
+            <Menu />
+          </MobileSidebarTrigger>
+        </div>
+      ) : (
+        <NonAuthMenu />
+      )}
     </div>
   );
 }

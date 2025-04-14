@@ -2,6 +2,7 @@
 
 import { createContext, useState, useEffect, useContext } from 'react';
 import { User } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 
 interface Auth {
@@ -20,15 +21,17 @@ export default function AuthProvider({
 }): React.ReactNode {
   const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [user, setUser] = useState<User | null>(initialSession);
+  const router = useRouter();
 
   useEffect(() => {
     const supabase = createClient();
     const getUser = async (): Promise<void> => {
       const { data, error } = await supabase.auth.getSession();
 
-      //TODO: decide what happens upon an error
       if (error) {
-        console.log('error in getUser inside context');
+        router.push(
+          `/error?message=${encodeURIComponent('There was an error trying to retrieve your session. Please try again.')}`
+        );
       }
       if (data) setUser(data.session?.user ?? null);
       setIsLoadingUser(false);

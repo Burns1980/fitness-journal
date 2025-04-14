@@ -6,13 +6,13 @@ export default async function UserHome(): Promise<React.ReactNode> {
 
   // ToDo: Define type for data => data from climbing_journal table
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data, error } = await supabase.rpc(
-    'get_journal_entries_with_details'
-  );
+  // const { data, error } = await supabase.rpc(
+  //   'get_journal_entries_with_details'
+  // );
 
-  if (error) {
-    console.error('error', error);
-  }
+  // if (error) {
+  //   console.error('error', error);
+  // }
   // console.log(user.id);
   // console.log('data', data);
 

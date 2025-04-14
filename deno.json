@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "lib": ["deno.ns", "dom", "esnext"],
+    "strict": true
+  },
+  "nodeModulesDir": "auto",
+  "include": "supabase/**/*.ts",
+  "imports": {},
+  "lint": {
+    "include": ["supabase/"],
+    "exclude": [],
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"],
+      "exclude": []
+    }
+  }
+}

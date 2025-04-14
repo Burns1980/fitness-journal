@@ -3,8 +3,8 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import {
   Sidebar,
-  SidebarTrigger,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -14,17 +14,19 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import {
-  Home,
   Caravan,
+  CircleUser,
+  ChartNoAxesColumnDecreasing,
+  Home,
+  Luggage,
   Mountain,
   Settings,
-  ChartNoAxesColumnDecreasing,
   Users,
-  Menu,
 } from 'lucide-react';
 import Link from 'next/link';
-import MobileTrigger from '@/components/ui/custom-sidebar-trigger';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Button } from '../ui/button';
+import { signOutAction } from '@/actions/actions';
 
 const menuItems: {
   title: string;
@@ -38,7 +40,7 @@ const menuItems: {
   },
   {
     title: 'Climbs',
-    url: '/private/climbs',
+    url: '/private/climb-journal',
     icon: Mountain,
   },
   {
@@ -49,7 +51,7 @@ const menuItems: {
   {
     title: 'Trip Planning',
     url: '/private/trip-planning',
-    icon: Caravan,
+    icon: Luggage,
   },
   {
     title: 'Partners',
@@ -62,6 +64,11 @@ const menuItems: {
     icon: ChartNoAxesColumnDecreasing,
   },
   {
+    title: 'Profile',
+    url: '/private/user-profile',
+    icon: CircleUser,
+  },
+  {
     title: 'Settings',
     url: '/private/settings',
     icon: Settings,
@@ -69,31 +76,37 @@ const menuItems: {
 ];
 
 export function AppSidebar(): React.ReactNode {
-  const { isMobile } = useSidebar();
+  const { isMobile, toggleSidebar, setOpenMobile } = useSidebar();
+  const [mounted, setMounted] = useState(false);
   const authData = useAuth();
 
-  // console.log(authData);
+  useEffect(() => {
+    setMounted(true);
+
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  }, [isMobile, setOpenMobile]);
+
+  if (!mounted || !authData?.user) return null;
 
   return (
-    <div>
-      {/* {isMobile && (
-        <MobileTrigger>
-          <Menu />
-        </MobileTrigger>
-      )} */}
+    <div className='border-r-2'>
       {!!authData?.user && (
-        <Sidebar collapsible={isMobile ? 'offcanvas' : 'none'}>
+        <Sidebar className='pt-3' collapsible={isMobile ? 'offcanvas' : 'none'}>
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Adventure Journal</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
+              <SidebarGroupLabel className='justify-center pt-2 text-foreground mb-10 text-md'>
+                {isMobile ? authData.user.email : `Adventure Journal`}
+              </SidebarGroupLabel>
+              <SidebarGroupContent className='pl-3'>
+                <SidebarMenu className='gap-5'>
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
+                      <SidebarMenuButton onClick={toggleSidebar} asChild>
                         <Link href={item.url}>
                           <item.icon />
-                          <span>{item.title}</span>
+                          <span className='text-md'>{item.title}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -102,6 +115,13 @@ export function AppSidebar(): React.ReactNode {
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
+          <SidebarFooter>
+            <form className='items-center flex gap-3' action={signOutAction}>
+              <Button className='flex-1 mb-3' type='submit'>
+                Log out
+              </Button>
+            </form>
+          </SidebarFooter>
         </Sidebar>
       )}
     </div>

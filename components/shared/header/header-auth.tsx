@@ -3,7 +3,7 @@ import { signOutAction } from '@/actions/actions';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/utils/supabase/server';
 
-export default async function AuthButton() {
+export default async function AuthButton(): Promise<React.ReactNode> {
   const supabase = await createClient();
 
   const {
@@ -11,14 +11,11 @@ export default async function AuthButton() {
   } = await supabase.auth.getUser();
 
   return user ? (
-    <div className='flex items-center gap-4'>
-      Hey, {user.email}!
-      <form action={signOutAction}>
-        <Button type='submit' variant='outline'>
-          Sign out
-        </Button>
-      </form>
-    </div>
+    <form className='items-center flex gap-3' action={signOutAction}>
+      <Button type='submit' variant='outline'>
+        Log out
+      </Button>
+    </form>
   ) : (
     <div className='flex gap-2'>
       <Button className='' asChild size='sm' variant='outline'>

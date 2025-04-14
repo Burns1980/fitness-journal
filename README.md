@@ -1,23 +1,13 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+<h1 align="center" >Setting up the local environment</h1>
 
 <p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
-
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
+  <a href="#How to get started"><strong>How to get started</strong></a> ·
+  <a href="#Setting up Supabase locally for Edge Functions"><strong>Setting up Supabase locally for Edge Functions</strong></a> ·
   <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
 </p>
 <br/>
 
-## Features
+## How to get started
 
 - Works across the entire [Next.js](https://nextjs.org) stack
   - App Router
@@ -32,9 +22,37 @@
 - Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
   - Environment variables automatically assigned to Vercel project
 
-## Demo
+## Setting up Supabase locally for Edge Functions
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+In order to develop [Supabase edge functions](https://supabase.com/dashboard/project/_/functions) locally, a few things need to happen.
+
+1. Install the Supabase CLI tool - [Supabase CLI docs](https://supabase.com/docs/guides/local-development):
+   ```bash
+   npm install supabase --save-dev
+   ```
+2. Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/): Follow the link and install there. (Note: if you are on Windows and do not have WSL installed, go to the Microsoft store and install it). Make sure to go to the Settings - General and ensure the following is enabled: Expose daemon on tcp://localhost:2375 without TLS. Once it has a checkmark, click Apply & Restart.
+3. Run the [Supabase command ](https://supabase.com/docs/reference/cli/supabase-init):
+   ```bash
+   npx supabase init
+   ```
+   If using VSCode, select `y` when prompted to "Generate VS Code settings for Deno?\[y/N\].
+4. Install Deno for use in VS Code. [Link for instructions](https://docs.deno.com/runtime/getting_started/setup_your_environment/)
+5. Next you need to login ([login docs,](https://supabase.com/docs/reference/cli/supabase-login)) to your Supabase account through the Supabase CLI.
+   ```bash
+   npx supabase login
+   ```
+   When asked for login token, go [here](https://supabase.com/dashboard/account/tokens) to get it.
+6. Link the local supabase environment to your database by running
+   ```bash
+   supabase link --project-ref ytjfmlzpqriaxgizkuta
+   ```
+   Note that if you get a tcp connection error, it's probably because you forgot to change the settings in Docker Desktop. View step 3 again.
+7. Start Supabase by running:
+   ```bash
+   npx supabase start
+   ```
+
+After following these steps, the local setup is complete. Here is a link to the [Edge Functions local quickstart guide](https://supabase.com/docs/guides/functions/local-quickstart).
 
 ## Deploy to Vercel
 
@@ -48,57 +66,19 @@ The above will also clone the Starter kit to your GitHub, you can clone that loc
 
 If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
 
-## Clone and run locally
+## Run locally
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+Add the following to a .env.local file. The URL and key can be found [here](https://supabase.com/dashboard/project/_/settings/api)
 
-2. Create a Next.js app using the Supabase Starter template npx command
+```
+NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
+NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
+```
 
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
-
-   ```bash
-   yarn create next-app --example with-supabase with-supabase-app
-   ```
-
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
-
-3. Use `cd` to change into the app's directory
-
-   ```bash
-   cd with-supabase-app
-   ```
-
-4. Rename `.env.example` to `.env.local` and update the following:
-
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
-   ```
-
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
-
-5. You can now run the Next.js local development server:
+1. You can now run the Next.js local development server:
 
    ```bash
    npm run dev
    ```
 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
-
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
-
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
-
-## Feedback and issues
-
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
-
-## More Supabase examples
-
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)

@@ -31,5 +31,5 @@
     ".next/types/**/*.ts",
     "types/**/*.d.ts"
   ],
-  "exclude": []
+  "exclude": ["./supabase"]
 }

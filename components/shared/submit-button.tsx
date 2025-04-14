@@ -16,7 +16,7 @@ export function SubmitButton({
   const { pending } = useFormStatus();
 
   return (
-    <Button type='submit' aria-disabled={pending} {...props}>
+    <Button disabled={pending} type='submit' aria-disabled={pending} {...props}>
       {pending ? (
         <div className='flex flex-row-reverse gap-2'>
           <span>{pendingText}</span>

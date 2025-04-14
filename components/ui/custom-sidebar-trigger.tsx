@@ -1,3 +1,5 @@
+'use client';
+
 import { useSidebar } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { ButtonHTMLAttributes } from 'react';

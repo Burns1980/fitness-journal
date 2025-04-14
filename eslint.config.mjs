@@ -112,6 +112,7 @@ export default tseslint.config(
       'out/',
       'public/static/',
       'eslint.config.mjs',
+      'supabase/',
     ],
   }
 );
